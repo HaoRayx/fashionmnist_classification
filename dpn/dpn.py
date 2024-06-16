@@ -1,7 +1,3 @@
-#本代码参考DRN作者，conv4_x和conv5_x的第一个block 3x3卷积的stride改成了1，特征图输出为28*28,第一层输入channel改成了1（原来为3）,得到的结果为DRN-A-50.log，更改 dilation=1，其他不变得到结果为resnet50.log（特征图输出仍为28*28）  class DRN_A(nn.Module):     self.layer3 = self._make_layer(block, 256, layers[2], stride=1,
-#                                  dilation=2)#2
-#     self.layer4 = self._make_layer(block, 512, layers[3], stride=1,
-#                                       dilation=4)#4
 
 import torch.nn as nn
 import math
@@ -55,7 +51,7 @@ class Bottleneck(nn.Module):
 
 
 
-class DRN_A(nn.Module):
+class DPN_A(nn.Module):
 
     def __init__(self, block, layers, num_classes=10):
         self.inplanes = 64
@@ -126,7 +122,7 @@ class DRN_A(nn.Module):
         return x
 
 
-def drn_a_50(pretrained=False, **kwargs):
+def dpn_a_50(pretrained=False, **kwargs):
     model = DRN_A(Bottleneck, [3, 4, 6, 3], **kwargs)
     if pretrained:
         model.load_state_dict(model_zoo.load_url(model_urls['resnet50']))
